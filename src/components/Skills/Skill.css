@@ -1,0 +1,72 @@
+.Skill {
+  display: flex;
+  position: relative;
+  cursor: pointer;
+}
+
+.Skill:hover > * {
+  filter: grayscale(100%);
+  opacity: .8;
+  background-color: white;
+}
+
+.Skill__Logo {
+  border-radius: 9999px;
+  border-width: 1px;
+  border-color: var(--gray-500);
+  width: 6rem;
+  height: 6rem;
+  object-fit: cover;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
+}
+
+.Skill__ProgressionWrapper {
+  position: absolute;
+  opacity: 0;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
+  height: 6rem;
+  width: 6rem;
+  border-radius: 9999px;
+  z-index: 0;
+}
+
+.Skill__Progression {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.Skill__Progression p {
+  font-size: 1.875rem;
+  line-height: 2.25rem;
+  font-weight: 700;
+  color: black;
+  opacity: 1;
+}
+
+@media only screen and (min-width: 48rem) {
+  .Skill__Logo {
+    width: 7rem;
+    height: 7rem;
+  }
+
+  .Skill__ProgressionWrapper {
+    width: 7rem;
+    height: 7rem;
+  }
+}
+
+@media only screen and (min-width: 80rem) {
+  .Skill__Logo {
+    width: 8rem;
+    height: 8rem;
+  }
+
+  .Skill__ProgressionWrapper {
+    width: 8rem;
+    height: 8rem;
+  }
+}
