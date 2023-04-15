@@ -13,6 +13,19 @@ interface Image {
   }
 }
 
+interface workExperience {
+  name: string;
+  company: string;
+  desc: string;
+}
+
+export interface AboutType extends SanityBody {
+  _type: 'about';
+  title: string;
+  description: string;
+  imgUrl: Image;
+}
+
 export interface PageInfoType extends SanityBody {
   _type: 'pageInfo';
   address: string;
@@ -37,6 +50,7 @@ export interface SkillType extends SanityBody {
   image: Image;
   progress: number;
   title: string;
+  bgColor: string;
 }
 
 export interface SocialType extends SanityBody {
@@ -50,8 +64,10 @@ export interface ProjectType extends SanityBody {
   title: string;
   image: Image;
   linkToBuild: string;
+  codeLink: string;
   summary: string;
   technologies: Technology[];
+  tags: string[];
 }
 
 export interface ExperienceType extends SanityBody {
@@ -64,4 +80,5 @@ export interface ExperienceType extends SanityBody {
   jobTitle: string;
   points: string[];
   technologies: Technology[];
+  works: workExperience[];
 }

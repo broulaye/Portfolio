@@ -1,0 +1,2 @@
+
+export const REFRESH_TIMER = 43200000;

@@ -19,6 +19,11 @@ export default defineType({
       validation: (Rule) => Rule.min(0).max(100),
     }),
     defineField({
+      name:'bgColor',
+      title:'BgColor',
+      type:'string'
+    }),
+    defineField({
       name: 'image',
       title: 'Image',
       type: 'image',

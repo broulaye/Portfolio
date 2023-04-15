@@ -6,7 +6,8 @@ const client = createClient({
   projectId: process.env.REACT_APP_PUBLIC_SANITY_PROJECT_ID, //'7ghxle19'
   dataset: process.env.REACT_APP_PUBLIC_SANITY_DATASET || 'production',
   useCdn: process.env.NODE_ENV === 'production',
-  apiVersion: '2022-03-25'
+  apiVersion: '2023-03-25',
+  token: process.env.REACT_APP_SANITY_TOKEN,
 });
 
 const builder = imageUrlBuilder(client);

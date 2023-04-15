@@ -35,5 +35,22 @@ export default defineType({
       title: 'LinkToBuild',
       type: 'url',
     }),
+    defineField({
+      name: 'codeLink',
+      title: 'Code Link',
+      type: 'url',
+    }),
+    defineField({
+      name: 'tags',
+      title: 'Tags',
+      type:'array',
+      of: [
+        {
+          name:'tag',
+          title:'Tag',
+          type:'string'
+        }
+      ]
+    }),
   ],
 })

@@ -50,5 +50,11 @@ export default defineType({
       type: 'array',
       of: [{ type: 'string' }],
     }),
+    defineField({
+      name:'works',
+      title:'Works',
+      type:'array',
+      of:[{ type:'workExperience'}]
+    }),
   ],
 })
