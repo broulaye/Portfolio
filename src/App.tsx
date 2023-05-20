@@ -1,22 +1,26 @@
-import React from 'react'
+import { BrowserRouter } from "react-router-dom";
 
-import { About, Footer, Header, Skills, Work } from './container';
-import { Navbar } from './components';
-import './App.scss';
+import { About, Contact, Experience, Hero, Navbar, Tech, Works, StarsCanvas } from "./components";
 
-type Props = {}
-
-const App = (props: Props) => {
+const App = () => {
   return (
-    <div className='app'>
-      <Navbar />
-      <Header />
-      <About />
-      <Work />
-      <Skills />
-      <Footer />
-    </div>
-  )
+    <BrowserRouter>
+      <div className='relative z-0 bg-primary'>
+        <div className='bg-hero-pattern bg-cover bg-no-repeat bg-center'>
+          <Navbar />
+          <Hero />
+        </div>
+        <About />
+        <Experience />
+        <Tech />
+        <Works />
+        <div className='relative z-0'>
+          <Contact />
+          <StarsCanvas />
+        </div>
+      </div>
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;

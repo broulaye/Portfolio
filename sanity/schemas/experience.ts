@@ -24,6 +24,11 @@ export default defineType({
       type: 'text',
     }),
     defineField({
+      name:'bgColor',
+      title:'BgColor',
+      type:'string'
+    }),
+    defineField({
       name: 'dateStarted',
       title: 'DateStarted',
       type: 'date',
