@@ -5,12 +5,12 @@ const emailKeys = {
 }
 
 // Log configuration status (only in development)
-if (process.env.NODE_ENV === 'development') {
-  console.log('EmailJS Configuration:', {
-    hasServiceId: !!emailKeys.SERVICE_ID,
-    hasTemplateId: !!emailKeys.TEMPLATE_ID,
-    hasPublicKey: !!emailKeys.PUBLIC_KEY,
-  });
-}
+// if (process.env.NODE_ENV === 'development') {
+//   console.log('EmailJS Configuration:', {
+//     hasServiceId: !!emailKeys.SERVICE_ID,
+//     hasTemplateId: !!emailKeys.TEMPLATE_ID,
+//     hasPublicKey: !!emailKeys.PUBLIC_KEY,
+//   });
+// }
 
 export default emailKeys;

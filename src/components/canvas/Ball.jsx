@@ -53,10 +53,10 @@ const BallCanvas = ({ icon }) => {
         const canvas = gl.domElement;
         const handleContextLost = (event) => {
           event.preventDefault();
-          console.warn('WebGL context lost in Ball canvas');
+          // console.warn('WebGL context lost in Ball canvas');
         };
         const handleContextRestored = () => {
-          console.log('WebGL context restored in Ball canvas');
+          // console.log('WebGL context restored in Ball canvas');
         };
         
         canvas.addEventListener('webglcontextlost', handleContextLost);

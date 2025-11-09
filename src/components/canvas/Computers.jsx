@@ -77,10 +77,10 @@ const ComputersCanvas = () => {
         const canvas = gl.domElement;
         const handleContextLost = (event) => {
           event.preventDefault();
-          console.warn('WebGL context lost, attempting to recover...');
+          // console.warn('WebGL context lost, attempting to recover...');
         };
         const handleContextRestored = () => {
-          console.log('WebGL context restored');
+          // console.log('WebGL context restored');
           // Force a re-render
           window.location.reload();
         };

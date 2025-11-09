@@ -42,10 +42,10 @@ const EarthCanvas = () => {
         const canvas = gl.domElement;
         const handleContextLost = (event) => {
           event.preventDefault();
-          console.warn('WebGL context lost in Earth canvas');
+          // console.warn('WebGL context lost in Earth canvas');
         };
         const handleContextRestored = () => {
-          console.log('WebGL context restored in Earth canvas');
+          // console.log('WebGL context restored in Earth canvas');
         };
         
         canvas.addEventListener('webglcontextlost', handleContextLost);

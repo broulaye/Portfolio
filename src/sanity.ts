@@ -24,12 +24,12 @@ if (projectId) {
     });
     builder = imageUrlBuilder(client);
   } catch (error) {
-    console.warn('Failed to create Sanity client:', error);
+    // console.warn('Failed to create Sanity client:', error);
     client = createMockClient();
     builder = null;
   }
 } else {
-  console.warn('Sanity projectId is not configured. Using mock client.');
+  // console.warn('Sanity projectId is not configured. Using mock client.');
   client = createMockClient();
   builder = null;
 }
@@ -39,7 +39,7 @@ export const urlFor = (source: SanityImageSource) => {
   try {
     return builder.image(source);
   } catch (error) {
-    console.error('Error creating image URL:', error);
+    // console.error('Error creating image URL:', error);
     return { url: () => '' };
   }
 };

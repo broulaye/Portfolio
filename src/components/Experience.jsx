@@ -75,7 +75,7 @@ const Experience = () => {
     client.fetch('*[_type == "experience"]').then((data) => {
       setExperiences(data);
     }).catch((error) => {
-      console.error('Error fetching experiences:', error);
+      // console.error('Error fetching experiences:', error);
       setExperiences([]);
     });
   }, []);
@@ -84,7 +84,7 @@ const Experience = () => {
     client.fetch('*[_type == "experience"]').then((data) => {
       setExperiences(data);
     }).catch((error) => {
-      console.error('Error fetching experiences:', error);
+      // console.error('Error fetching experiences:', error);
     });
   }, REFRESH_TIMER);
 

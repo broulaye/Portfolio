@@ -42,10 +42,10 @@ const StarsCanvas = () => {
           const canvas = gl.domElement;
           const handleContextLost = (event) => {
             event.preventDefault();
-            console.warn('WebGL context lost in Stars canvas');
+            // console.warn('WebGL context lost in Stars canvas');
           };
           const handleContextRestored = () => {
-            console.log('WebGL context restored in Stars canvas');
+            // console.log('WebGL context restored in Stars canvas');
           };
           
           canvas.addEventListener('webglcontextlost', handleContextLost);

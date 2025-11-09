@@ -46,7 +46,7 @@ const Contact = () => {
 
     // Check if EmailJS is configured
     if (!emailKeys.SERVICE_ID || !emailKeys.TEMPLATE_ID || !emailKeys.PUBLIC_KEY) {
-      console.error("EmailJS is not configured. Missing environment variables.");
+      // console.error("EmailJS is not configured. Missing environment variables.");
       alert("Email service is not configured. Please contact me directly or check the console for details.");
       return;
     }
@@ -66,7 +66,7 @@ const Contact = () => {
       .then(
         (response) => {
           setLoading(false);
-          console.log("Email sent successfully:", response.status, response.text);
+          // console.log("Email sent successfully:", response.status, response.text);
           alert("Thank you! I will get back to you as soon as possible.");
 
           setForm({
@@ -77,14 +77,14 @@ const Contact = () => {
         },
         (error) => {
           setLoading(false);
-          console.error("EmailJS error:", error);
-          console.error("Error details:", {
-            serviceId: emailKeys.SERVICE_ID,
-            templateId: emailKeys.TEMPLATE_ID,
-            hasPublicKey: !!emailKeys.PUBLIC_KEY,
-            errorText: error.text,
-            errorStatus: error.status
-          });
+          // console.error("EmailJS error:", error);
+          // console.error("Error details:", {
+          //   serviceId: emailKeys.SERVICE_ID,
+          //   templateId: emailKeys.TEMPLATE_ID,
+          //   hasPublicKey: !!emailKeys.PUBLIC_KEY,
+          //   errorText: error.text,
+          //   errorStatus: error.status
+          // });
           alert(`Failed to send message. Error: ${error.text || error.message || "Unknown error"}. Please try again or contact me directly.`);
         }
       );

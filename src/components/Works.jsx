@@ -85,7 +85,7 @@ const Works = () => {
     ).then((data) => {
       setProjects(data);
     }).catch((error) => {
-      console.error('Error fetching projects:', error);
+      // console.error('Error fetching projects:', error);
       setProjects([]);
     });
   }, []);
@@ -101,7 +101,7 @@ const Works = () => {
     ).then((data) => {
       setProjects(data);
     }).catch((error) => {
-      console.error('Error fetching projects:', error);
+      // console.error('Error fetching projects:', error);
     });
   }, REFRESH_TIMER);
 
