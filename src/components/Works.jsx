@@ -18,6 +18,8 @@ const ProjectCard = ({
   image,
   codeLink,
 }) => {
+  if (!image) return null;
+  
   return (
     <motion.div key={index} variants={fadeIn("up", "spring", index * 0.5, 0.75)}>
       <Tilt
@@ -55,12 +57,12 @@ const ProjectCard = ({
         </div>
 
         <div className='mt-4 flex flex-wrap gap-2'>
-          {technologies.map((tech) => (
+          {technologies && technologies.map((tech) => (
             <p
-              key={`${title}-${tech.title}`}
-              className={`text-[14px] ${tech.bgColor}`}
+              key={`${title}-${tech?.title || tech}`}
+              className={`text-[14px] ${tech?.bgColor || ''}`}
             >
-              #{tech.title}
+              #{tech?.title || tech}
             </p>
           ))}
         </div>
@@ -82,6 +84,9 @@ const Works = () => {
       `
     ).then((data) => {
       setProjects(data);
+    }).catch((error) => {
+      console.error('Error fetching projects:', error);
+      setProjects([]);
     });
   }, []);
 
@@ -95,6 +100,8 @@ const Works = () => {
       `
     ).then((data) => {
       setProjects(data);
+    }).catch((error) => {
+      console.error('Error fetching projects:', error);
     });
   }, REFRESH_TIMER);
 

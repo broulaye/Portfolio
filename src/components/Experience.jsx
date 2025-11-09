@@ -15,10 +15,14 @@ import { REFRESH_TIMER } from '../utils/constants';
 import client, { urlFor } from '../sanity';
 
 const ExperienceCard = ({ experience }) => {
+  if (!experience) return null;
+  
   const formatDate = (date) => {
+    if (!date) return '';
     var options = { year: 'numeric', month: 'long', day: 'numeric' };
     return new Date(date).toLocaleDateString([],options);
   }
+  
   return (
     <VerticalTimelineElement
       contentStyle={{
@@ -27,14 +31,16 @@ const ExperienceCard = ({ experience }) => {
       }}
       contentArrowStyle={{ borderRight: "7px solid  #232631" }}
       date={`${formatDate(experience.dateStarted)} - ${experience.isCurrentlyWorkingHere ? 'Present' : formatDate(experience.dateEnded)}`}
-      iconStyle={{ background: experience.bgColor}}
+      iconStyle={{ background: experience.bgColor || '#915EFF'}}
       icon={
         <div className='flex justify-center items-center w-full h-full'>
-          <img
-            src={urlFor(experience.companyImage).url()}
-            alt={experience.company}
-            className='w-[60%] h-[60%] object-contain'
-          />
+          {experience.companyImage && (
+            <img
+              src={urlFor(experience.companyImage).url()}
+              alt={experience.company || 'company'}
+              className='w-[60%] h-[60%] object-contain'
+            />
+          )}
         </div>
       }
     >
@@ -49,7 +55,7 @@ const ExperienceCard = ({ experience }) => {
       </div>
 
       <ul className='mt-5 list-disc ml-5 space-y-2'>
-        {experience.points.map((point, index) => (
+        {experience.points && experience.points.map((point, index) => (
           <li
             key={`experience-point-${index}`}
             className='text-white-100 text-[14px] pl-1 tracking-wider'
@@ -68,12 +74,17 @@ const Experience = () => {
   useEffect(() => {
     client.fetch('*[_type == "experience"]').then((data) => {
       setExperiences(data);
+    }).catch((error) => {
+      console.error('Error fetching experiences:', error);
+      setExperiences([]);
     });
   }, []);
 
   useInterval(async () => {
     client.fetch('*[_type == "experience"]').then((data) => {
       setExperiences(data);
+    }).catch((error) => {
+      console.error('Error fetching experiences:', error);
     });
   }, REFRESH_TIMER);
 

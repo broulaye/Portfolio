@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { FcDownload } from "react-icons/fc"
 import { BsDownload } from 'react-icons/bs';
 
 import { styles } from "../styles";
