@@ -30,7 +30,28 @@ const Stars = (props) => {
 const StarsCanvas = () => {
   return (
     <div className='w-full h-auto absolute inset-0 z-[-1]'>
-      <Canvas camera={{ position: [0, 0, 1] }}>
+      <Canvas 
+        camera={{ position: [0, 0, 1] }}
+        gl={{ 
+          powerPreference: "high-performance",
+          antialias: false,
+          alpha: true
+        }}
+        onCreated={({ gl }) => {
+          // Handle WebGL context loss
+          const canvas = gl.domElement;
+          const handleContextLost = (event) => {
+            event.preventDefault();
+            console.warn('WebGL context lost in Stars canvas');
+          };
+          const handleContextRestored = () => {
+            console.log('WebGL context restored in Stars canvas');
+          };
+          
+          canvas.addEventListener('webglcontextlost', handleContextLost);
+          canvas.addEventListener('webglcontextrestored', handleContextRestored);
+        }}
+      >
         <Suspense fallback={null}>
           <Stars />
         </Suspense>

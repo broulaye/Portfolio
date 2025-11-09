@@ -59,7 +59,28 @@ const ComputersCanvas = () => {
       shadows
       dpr={[1, 2]}
       camera={{ position: [20, 3, 5], fov: 25 }}
-      gl={{ preserveDrawingBuffer: true }}
+      gl={{ 
+        preserveDrawingBuffer: true,
+        powerPreference: "high-performance",
+        antialias: true,
+        alpha: false
+      }}
+      onCreated={({ gl }) => {
+        // Handle WebGL context loss
+        const canvas = gl.domElement;
+        const handleContextLost = (event) => {
+          event.preventDefault();
+          console.warn('WebGL context lost, attempting to recover...');
+        };
+        const handleContextRestored = () => {
+          console.log('WebGL context restored');
+          // Force a re-render
+          window.location.reload();
+        };
+        
+        canvas.addEventListener('webglcontextlost', handleContextLost);
+        canvas.addEventListener('webglcontextrestored', handleContextRestored);
+      }}
     >
       <Suspense fallback={<CanvasLoader />}>
         <OrbitControls

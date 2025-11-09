@@ -42,7 +42,26 @@ const BallCanvas = ({ icon }) => {
     <Canvas
       frameloop='demand'
       dpr={[1, 2]}
-      gl={{ preserveDrawingBuffer: true }}
+      gl={{ 
+        preserveDrawingBuffer: true,
+        powerPreference: "high-performance",
+        antialias: true,
+        alpha: false
+      }}
+      onCreated={({ gl }) => {
+        // Handle WebGL context loss
+        const canvas = gl.domElement;
+        const handleContextLost = (event) => {
+          event.preventDefault();
+          console.warn('WebGL context lost in Ball canvas');
+        };
+        const handleContextRestored = () => {
+          console.log('WebGL context restored in Ball canvas');
+        };
+        
+        canvas.addEventListener('webglcontextlost', handleContextLost);
+        canvas.addEventListener('webglcontextrestored', handleContextRestored);
+      }}
     >
       <Suspense fallback={<CanvasLoader />}>
         <OrbitControls enableZoom={false} />
