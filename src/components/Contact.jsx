@@ -30,14 +30,44 @@ const Contact = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    
+    // Validate form
+    if (!form.name || !form.email || !form.message) {
+      alert("Please fill in all fields.");
+      return;
+    }
+
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(form.email)) {
+      alert("Please enter a valid email address.");
+      return;
+    }
+
+    // Check if EmailJS is configured
+    if (!emailKeys.SERVICE_ID || !emailKeys.TEMPLATE_ID || !emailKeys.PUBLIC_KEY) {
+      console.error("EmailJS is not configured. Missing environment variables.");
+      alert("Email service is not configured. Please contact me directly or check the console for details.");
+      return;
+    }
+
     setLoading(true);
 
+    // Prepare template parameters for EmailJS
+    const templateParams = {
+      from_name: form.name,
+      from_email: form.email,
+      message: form.message,
+      to_name: "Broulaye",
+    };
+
     emailjs
-      .send(`${emailKeys.SERVICE_ID}`, `${emailKeys.TEMPLATE_ID}`, form, `${emailKeys.PUBLIC_KEY}`)
+      .send(emailKeys.SERVICE_ID, emailKeys.TEMPLATE_ID, templateParams, emailKeys.PUBLIC_KEY)
       .then(
-        () => {
+        (response) => {
           setLoading(false);
-          alert("Thank you. I will get back to you as soon as possible.");
+          console.log("Email sent successfully:", response.status, response.text);
+          alert("Thank you! I will get back to you as soon as possible.");
 
           setForm({
             name: "",
@@ -47,9 +77,15 @@ const Contact = () => {
         },
         (error) => {
           setLoading(false);
-          console.error(error);
-
-          alert("Ahh, something went wrong. Please try again.");
+          console.error("EmailJS error:", error);
+          console.error("Error details:", {
+            serviceId: emailKeys.SERVICE_ID,
+            templateId: emailKeys.TEMPLATE_ID,
+            hasPublicKey: !!emailKeys.PUBLIC_KEY,
+            errorText: error.text,
+            errorStatus: error.status
+          });
+          alert(`Failed to send message. Error: ${error.text || error.message || "Unknown error"}. Please try again or contact me directly.`);
         }
       );
   };
