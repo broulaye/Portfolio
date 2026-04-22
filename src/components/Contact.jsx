@@ -1,11 +1,11 @@
 import { useRef, useState } from "react";
 import { motion } from "framer-motion";
 import emailjs from "@emailjs/browser";
+import { FiGithub, FiLinkedin, FiMail, FiMapPin } from "react-icons/fi";
 
-import { EarthCanvas, LazyCanvas } from "./canvas";
 import { SectionWrapper } from "../hoc";
-import { slideIn } from "../utils/motion";
-import emailKeys from '../emailKeys';
+import { fadeIn, textVariant } from "../utils/motion";
+import emailKeys from "../emailKeys";
 import { styles } from "../styles";
 
 const initialForm = { name: "", email: "", message: "" };
@@ -13,12 +13,38 @@ const initialErrors = { name: "", email: "", message: "" };
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+const reachLinks = [
+  {
+    label: "Email",
+    value: "broulayepro@gmail.com",
+    href: "mailto:broulayepro@gmail.com",
+    icon: FiMail,
+  },
+  {
+    label: "GitHub",
+    value: "github.com/broulaye",
+    href: "https://github.com/broulaye",
+    icon: FiGithub,
+  },
+  {
+    label: "LinkedIn",
+    value: "linkedin.com/in/broulaye",
+    href: "https://www.linkedin.com/in/broulaye/",
+    icon: FiLinkedin,
+  },
+  {
+    label: "Location",
+    value: "Remote · US-Central",
+    href: null,
+    icon: FiMapPin,
+  },
+];
+
 const Contact = () => {
   const formRef = useRef();
   const [form, setForm] = useState(initialForm);
   const [errors, setErrors] = useState(initialErrors);
   const [status, setStatus] = useState({ type: "idle", message: "" });
-  // Honeypot — real users should never fill this field.
   const [honeypot, setHoneypot] = useState("");
 
   const loading = status.type === "loading";
@@ -47,7 +73,6 @@ const Contact = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Honeypot check — bots typically fill every field.
     if (honeypot) {
       setStatus({ type: "success", message: "Thanks! I'll get back to you soon." });
       setForm(initialForm);
@@ -98,142 +123,179 @@ const Contact = () => {
   };
 
   const fieldBase =
-    'bg-tertiary py-4 px-6 placeholder:text-secondary text-white rounded-lg outline-none border font-medium transition-colors focus:border-[#915EFF] focus-visible:ring-2 focus-visible:ring-[#915EFF]';
+    "w-full bg-white/[0.03] py-3 px-4 placeholder:text-muted text-white rounded-md outline-none border text-[14px] transition-colors focus:border-accent focus-visible:ring-2 focus-visible:ring-accent";
 
   return (
-    <div
-      className={`xl:mt-12 flex xl:flex-row flex-col-reverse gap-10 overflow-hidden`}
-    >
-      <motion.div
-        variants={slideIn("left", "tween", 0.2, 1)}
-        className='flex-[0.75] bg-black-100 p-8 rounded-2xl'
-      >
-        <p className={styles.sectionSubText}>Get in touch</p>
-        <h3 className={styles.sectionHeadText}>Contact.</h3>
-
-        <form
-          ref={formRef}
-          onSubmit={handleSubmit}
-          noValidate
-          className='mt-12 flex flex-col gap-8'
-        >
-          {/* Honeypot — hidden from humans, visible to bots */}
-          <label
-            className='absolute left-[-9999px]'
-            aria-hidden='true'
-          >
-            Company
-            <input
-              type='text'
-              tabIndex={-1}
-              autoComplete='off'
-              value={honeypot}
-              onChange={(e) => setHoneypot(e.target.value)}
-            />
-          </label>
-
-          <label className='flex flex-col'>
-            <span className='text-white font-medium mb-4'>Your Name</span>
-            <input
-              type='text'
-              name='name'
-              value={form.name}
-              onChange={handleChange}
-              placeholder="What's your good name?"
-              aria-invalid={Boolean(errors.name)}
-              aria-describedby={errors.name ? "name-error" : undefined}
-              className={`${fieldBase} ${errors.name ? 'border-red-500' : 'border-transparent'}`}
-            />
-            {errors.name && (
-              <span id="name-error" className='mt-2 text-red-400 text-[13px]'>
-                {errors.name}
-              </span>
-            )}
-          </label>
-
-          <label className='flex flex-col'>
-            <span className='text-white font-medium mb-4'>Your email</span>
-            <input
-              type='email'
-              name='email'
-              value={form.email}
-              onChange={handleChange}
-              placeholder="What's your email address?"
-              aria-invalid={Boolean(errors.email)}
-              aria-describedby={errors.email ? "email-error" : undefined}
-              className={`${fieldBase} ${errors.email ? 'border-red-500' : 'border-transparent'}`}
-            />
-            {errors.email && (
-              <span id="email-error" className='mt-2 text-red-400 text-[13px]'>
-                {errors.email}
-              </span>
-            )}
-          </label>
-
-          <label className='flex flex-col'>
-            <span className='text-white font-medium mb-4'>Your Message</span>
-            <textarea
-              rows={7}
-              name='message'
-              value={form.message}
-              onChange={handleChange}
-              placeholder='What do you want to say?'
-              aria-invalid={Boolean(errors.message)}
-              aria-describedby={errors.message ? "message-error" : undefined}
-              className={`${fieldBase} ${errors.message ? 'border-red-500' : 'border-transparent'}`}
-            />
-            {errors.message && (
-              <span id="message-error" className='mt-2 text-red-400 text-[13px]'>
-                {errors.message}
-              </span>
-            )}
-          </label>
-
-          <div className='flex flex-wrap items-center gap-4'>
-            <button
-              type='submit'
-              disabled={loading}
-              className='bg-[#915EFF] hover:bg-[#7d4cea] disabled:opacity-60 disabled:cursor-not-allowed py-3 px-8 rounded-xl outline-none w-fit text-white font-bold shadow-md shadow-primary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#915EFF] focus-visible:ring-offset-2 focus-visible:ring-offset-black-100'
-            >
-              {loading ? "Sending..." : "Send message"}
-            </button>
-
-            {status.type === "success" && (
-              <p
-                role='status'
-                aria-live='polite'
-                className='text-emerald-300 text-[14px] font-medium'
-              >
-                {status.message}
-              </p>
-            )}
-            {status.type === "error" && (
-              <p
-                role='alert'
-                aria-live='assertive'
-                className='text-red-400 text-[14px] font-medium'
-              >
-                {status.message}
-              </p>
-            )}
-          </div>
-        </form>
+    <>
+      <motion.div variants={textVariant()}>
+        <p className={styles.sectionSubText}>05 / Contact</p>
+        <h2 className={styles.sectionHeadText}>Let&apos;s talk.</h2>
       </motion.div>
 
-      <motion.div
-        variants={slideIn("right", "tween", 0.2, 1)}
-        className='xl:flex-1 xl:h-auto md:h-[550px] h-[350px]'
-      >
-        <LazyCanvas
-          className='w-full h-full'
-          fallback={
-            <div className='w-full h-full rounded-2xl bg-black-100/40 border border-white/5' aria-hidden='true' />
-          }
+      <div className='mt-12 grid grid-cols-1 lg:grid-cols-5 gap-8'>
+        {/* Left — direct channels */}
+        <motion.aside
+          variants={fadeIn("right", "spring", 0.1, 0.7)}
+          className='lg:col-span-2 rounded-xl border border-white/10 bg-white/[0.02] p-6 sm:p-7'
         >
-          <EarthCanvas />
-        </LazyCanvas>
-      </motion.div>
-    </div>
+          <p className='text-secondary text-[14px] leading-[24px]'>
+            I&apos;m currently open to remote frontend and full-stack roles. Happy to chat about
+            product work, engineering hires, or interesting side projects.
+          </p>
+
+          <ul className='mt-6 space-y-4'>
+            {reachLinks.map(({ label, value, href, icon: Icon }) => {
+              const Tag = href ? "a" : "div";
+              const extraProps = href
+                ? {
+                    href,
+                    target: href.startsWith("mailto:") ? undefined : "_blank",
+                    rel: href.startsWith("mailto:") ? undefined : "noreferrer noopener",
+                  }
+                : {};
+              return (
+                <li key={label}>
+                  <Tag
+                    {...extraProps}
+                    className={`flex items-center gap-3 text-[14px] ${
+                      href ? "hover:text-white text-white/80" : "text-white/70"
+                    }`}
+                  >
+                    <span className='w-9 h-9 rounded-md border border-white/10 bg-white/[0.03] flex items-center justify-center shrink-0'>
+                      <Icon className='w-4 h-4' aria-hidden='true' />
+                    </span>
+                    <span className='flex flex-col'>
+                      <span className='font-mono text-[10px] uppercase tracking-wider text-muted'>
+                        {label}
+                      </span>
+                      <span>{value}</span>
+                    </span>
+                  </Tag>
+                </li>
+              );
+            })}
+          </ul>
+        </motion.aside>
+
+        {/* Right — form */}
+        <motion.div
+          variants={fadeIn("left", "spring", 0.2, 0.7)}
+          className='lg:col-span-3 rounded-xl border border-white/10 bg-white/[0.02] p-6 sm:p-8'
+        >
+          <form ref={formRef} onSubmit={handleSubmit} noValidate className='flex flex-col gap-5'>
+            <label className='absolute left-[-9999px]' aria-hidden='true'>
+              Company
+              <input
+                type='text'
+                tabIndex={-1}
+                autoComplete='off'
+                value={honeypot}
+                onChange={(e) => setHoneypot(e.target.value)}
+              />
+            </label>
+
+            <label className='flex flex-col gap-2'>
+              <span className='font-mono text-[11px] uppercase tracking-wider text-muted'>
+                Your name
+              </span>
+              <input
+                type='text'
+                name='name'
+                value={form.name}
+                onChange={handleChange}
+                placeholder='Your name'
+                aria-invalid={Boolean(errors.name)}
+                aria-describedby={errors.name ? "name-error" : undefined}
+                className={`${fieldBase} ${
+                  errors.name ? "border-red-500" : "border-white/10"
+                }`}
+              />
+              {errors.name && (
+                <span id='name-error' className='text-red-400 text-[12px]'>
+                  {errors.name}
+                </span>
+              )}
+            </label>
+
+            <label className='flex flex-col gap-2'>
+              <span className='font-mono text-[11px] uppercase tracking-wider text-muted'>
+                Email
+              </span>
+              <input
+                type='email'
+                name='email'
+                value={form.email}
+                onChange={handleChange}
+                placeholder='you@company.com'
+                aria-invalid={Boolean(errors.email)}
+                aria-describedby={errors.email ? "email-error" : undefined}
+                className={`${fieldBase} ${
+                  errors.email ? "border-red-500" : "border-white/10"
+                }`}
+              />
+              {errors.email && (
+                <span id='email-error' className='text-red-400 text-[12px]'>
+                  {errors.email}
+                </span>
+              )}
+            </label>
+
+            <label className='flex flex-col gap-2'>
+              <span className='font-mono text-[11px] uppercase tracking-wider text-muted'>
+                Message
+              </span>
+              <textarea
+                rows={6}
+                name='message'
+                value={form.message}
+                onChange={handleChange}
+                placeholder="What's on your mind?"
+                aria-invalid={Boolean(errors.message)}
+                aria-describedby={errors.message ? "message-error" : undefined}
+                className={`${fieldBase} resize-y ${
+                  errors.message ? "border-red-500" : "border-white/10"
+                }`}
+              />
+              {errors.message && (
+                <span id='message-error' className='text-red-400 text-[12px]'>
+                  {errors.message}
+                </span>
+              )}
+            </label>
+
+            <div className='flex flex-wrap items-center gap-4 mt-2'>
+              <button
+                type='submit'
+                disabled={loading}
+                className='inline-flex items-center gap-2 bg-accent hover:bg-accent-hover disabled:opacity-60 disabled:cursor-not-allowed py-2.5 px-5 rounded-md text-primary text-[14px] font-medium transition-colors'
+              >
+                {loading ? "Sending..." : "Send message"}
+                <span aria-hidden='true'>→</span>
+              </button>
+
+              {status.type === "success" && (
+                <p
+                  role='status'
+                  aria-live='polite'
+                  className='text-emerald-300 text-[13px] font-medium'
+                >
+                  {status.message}
+                </p>
+              )}
+              {status.type === "error" && (
+                <p
+                  role='alert'
+                  aria-live='assertive'
+                  className='text-red-400 text-[13px] font-medium'
+                >
+                  {status.message}
+                </p>
+              )}
+            </div>
+          </form>
+        </motion.div>
+      </div>
+    </>
   );
 };
 

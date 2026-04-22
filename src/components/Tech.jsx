@@ -1,60 +1,49 @@
-import { BallCanvas, LazyCanvas } from "./canvas";
+import { motion } from "framer-motion";
+
+import { styles } from "../styles";
 import { SectionWrapper } from "../hoc";
 import { technologies } from "../constants";
-import useIsMobile from "../utils/useIsMobile";
+import { fadeIn, textVariant } from "../utils/motion";
 
 /**
- * On mobile (and for users who prefer reduced motion), we skip the 13 WebGL
- * canvases and render a static logo grid — huge perf win on low-end devices.
+ * Static logo grid — no WebGL. Kept intentionally simple so this section
+ * doesn't steal attention from Projects.
  */
 const Tech = () => {
-  const isMobile = useIsMobile(640);
+  return (
+    <>
+      <motion.div variants={textVariant()}>
+        <p className={styles.sectionSubText}>02 / Stack</p>
+        <h2 className={styles.sectionHeadText}>Tools I reach for.</h2>
+      </motion.div>
 
-  if (isMobile) {
-    return (
-      <div className='flex flex-row flex-wrap justify-center gap-6 sm:gap-10'>
-        {technologies.map((technology) => (
-          <div
-            key={technology.name}
-            className='flex flex-col items-center gap-2 w-24'
+      <motion.p
+        variants={fadeIn("", "", 0.1, 1)}
+        className='mt-4 text-secondary text-[16px] max-w-2xl leading-[26px]'
+      >
+        Day-to-day toolkit. I optimize for long-term maintainability, strong typing, and shipping
+        accessible UI.
+      </motion.p>
+
+      <div className='mt-12 grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-3'>
+        {technologies.map((tech, index) => (
+          <motion.div
+            key={tech.name}
+            variants={fadeIn("up", "spring", index * 0.04, 0.4)}
+            className='rounded-lg border border-white/10 bg-white/[0.02] hover:border-white/20 hover:bg-white/[0.04] transition-colors px-3 py-4 flex flex-col items-center gap-2 text-center'
           >
-            <div className='w-20 h-20 rounded-full bg-white/5 border border-white/10 flex items-center justify-center p-4'>
-              <img
-                src={technology.icon}
-                alt={`${technology.name} logo`}
-                className='w-full h-full object-contain'
-                loading='lazy'
-                decoding='async'
-              />
-            </div>
-            <span className='text-secondary text-[11px] text-center'>{technology.name}</span>
-          </div>
+            <img
+              src={tech.icon}
+              alt={`${tech.name} logo`}
+              className='w-8 h-8 object-contain'
+              loading='lazy'
+              decoding='async'
+            />
+            <span className='font-mono text-[11px] text-secondary'>{tech.name}</span>
+          </motion.div>
         ))}
       </div>
-    );
-  }
-
-  return (
-    <div className='flex flex-row flex-wrap justify-center gap-10'>
-      {technologies.map((technology) => (
-        <div className='w-28 h-28' key={technology.name}>
-          <LazyCanvas
-            className='w-full h-full'
-            fallback={
-              <img
-                src={technology.icon}
-                alt={`${technology.name} logo`}
-                className='w-full h-full object-contain opacity-70'
-                loading='lazy'
-                decoding='async'
-              />
-            }
-          >
-            <BallCanvas icon={technology.icon} />
-          </LazyCanvas>
-        </div>
-      ))}
-    </div>
+    </>
   );
 };
 
