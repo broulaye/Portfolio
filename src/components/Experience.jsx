@@ -68,22 +68,44 @@ const ExperienceCard = ({ experience }) => {
   );
 };
 
+const ExperienceSkeleton = () => (
+  <VerticalTimelineElement
+    contentStyle={{ background: "#1d1836", color: "#fff" }}
+    contentArrowStyle={{ borderRight: "7px solid #232631" }}
+    iconStyle={{ background: "#2a2450" }}
+    icon={<div className='w-full h-full' />}
+  >
+    <div className='animate-pulse'>
+      <div className='h-6 w-1/2 rounded bg-white/10' />
+      <div className='mt-2 h-4 w-1/3 rounded bg-white/5' />
+      <div className='mt-5 space-y-2'>
+        <div className='h-3 w-full rounded bg-white/5' />
+        <div className='h-3 w-11/12 rounded bg-white/5' />
+        <div className='h-3 w-5/6 rounded bg-white/5' />
+      </div>
+    </div>
+  </VerticalTimelineElement>
+);
+
 const Experience = () => {
   const [experiences, setExperiences] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     client.fetch('*[_type == "experience"]').then((data) => {
       setExperiences(data);
-    }).catch((error) => {
+      setLoading(false);
+    }).catch((_error) => {
       // console.error('Error fetching experiences:', error);
       setExperiences([]);
+      setLoading(false);
     });
   }, []);
 
   useInterval(async () => {
     client.fetch('*[_type == "experience"]').then((data) => {
       setExperiences(data);
-    }).catch((error) => {
+    }).catch((_error) => {
       // console.error('Error fetching experiences:', error);
     });
   }, REFRESH_TIMER);
@@ -101,12 +123,19 @@ const Experience = () => {
 
       <div className='mt-20 flex flex-col'>
         <VerticalTimeline>
-          {experiences.map((experience, index) => (
-            <ExperienceCard
-              key={`experience-${index}`}
-              experience={experience}
-            />
-          ))}
+          {loading && experiences.length === 0 ? (
+            <>
+              <ExperienceSkeleton />
+              <ExperienceSkeleton />
+            </>
+          ) : (
+            experiences.map((experience, index) => (
+              <ExperienceCard
+                key={`experience-${index}`}
+                experience={experience}
+              />
+            ))
+          )}
         </VerticalTimeline>
       </div>
     </>

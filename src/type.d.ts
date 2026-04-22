@@ -66,7 +66,7 @@ export interface ProjectType extends SanityBody {
   linkToBuild: string;
   codeLink: string;
   summary: string;
-  technologies: Technology[];
+  technologies: TechnologyType[];
   tags: string[];
 }
 
@@ -79,6 +79,6 @@ export interface ExperienceType extends SanityBody {
   isCurrentlyWorkingHere: boolean;
   jobTitle: string;
   points: string[];
-  technologies: Technology[];
+  technologies: TechnologyType[];
   works: workExperience[];
 }

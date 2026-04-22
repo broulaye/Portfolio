@@ -33,22 +33,28 @@ const ProjectCard = ({
         <div className='relative w-full h-[230px]'>
           <img
             src={urlFor(image).url()}
-            alt='project_image'
+            alt={title ? `${title} screenshot` : 'Project screenshot'}
             className='w-full h-full object-cover rounded-2xl'
           />
 
-          <div className='absolute inset-0 flex justify-end m-3 card-img_hover'>
-            <div
-              onClick={() => window.open(codeLink, "_blank")}
-              className='black-gradient w-10 h-10 rounded-full flex justify-center items-center cursor-pointer'
-            >
-              <img
-                src={github}
-                alt='source code'
-                className='w-1/2 h-1/2 object-contain'
-              />
+          {codeLink && (
+            <div className='absolute inset-0 flex justify-end m-3 card-img_hover'>
+              <a
+                href={codeLink}
+                target='_blank'
+                rel='noreferrer noopener'
+                aria-label={title ? `Source code for ${title}` : 'Source code'}
+                className='black-gradient w-10 h-10 rounded-full flex justify-center items-center cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#915EFF]'
+              >
+                <img
+                  src={github}
+                  alt=''
+                  aria-hidden='true'
+                  className='w-1/2 h-1/2 object-contain'
+                />
+              </a>
             </div>
-          </div>
+          )}
         </div>
 
         <div className='mt-5'>
@@ -71,8 +77,23 @@ const ProjectCard = ({
   );
 };
 
+const ProjectSkeleton = () => (
+  <div className='bg-tertiary p-5 rounded-2xl sm:w-[360px] w-full animate-pulse'>
+    <div className='w-full h-[230px] rounded-2xl bg-white/5' />
+    <div className='mt-5 h-6 w-2/3 rounded bg-white/10' />
+    <div className='mt-3 h-4 w-full rounded bg-white/5' />
+    <div className='mt-2 h-4 w-5/6 rounded bg-white/5' />
+    <div className='mt-4 flex gap-2'>
+      <div className='h-5 w-14 rounded bg-white/5' />
+      <div className='h-5 w-16 rounded bg-white/5' />
+      <div className='h-5 w-12 rounded bg-white/5' />
+    </div>
+  </div>
+);
+
 const Works = () => {
   const [projects, setProjects] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     client.fetch(
@@ -84,9 +105,11 @@ const Works = () => {
       `
     ).then((data) => {
       setProjects(data);
-    }).catch((error) => {
+      setLoading(false);
+    }).catch((_error) => {
       // console.error('Error fetching projects:', error);
       setProjects([]);
+      setLoading(false);
     });
   }, []);
 
@@ -100,7 +123,7 @@ const Works = () => {
       `
     ).then((data) => {
       setProjects(data);
-    }).catch((error) => {
+    }).catch((_error) => {
       // console.error('Error fetching projects:', error);
     });
   }, REFRESH_TIMER);
@@ -126,9 +149,31 @@ const Works = () => {
       </div>
 
       <div className='mt-20 flex flex-wrap gap-7'>
-        {projects.map((project, index) => (
-          <ProjectCard key={`project-${index}`} index={index} {...project} />
-        ))}
+        {loading && projects.length === 0 ? (
+          <>
+            <ProjectSkeleton />
+            <ProjectSkeleton />
+            <ProjectSkeleton />
+          </>
+        ) : projects.length === 0 ? (
+          <p className='text-secondary text-[15px]'>
+            Projects are loading from the CMS &mdash; if this persists, my Sanity project may be
+            offline. Meanwhile, check out my {" "}
+            <a
+              href='https://github.com/broulaye'
+              target='_blank'
+              rel='noreferrer noopener'
+              className='text-[#915EFF] hover:underline'
+            >
+              GitHub
+            </a>
+            .
+          </p>
+        ) : (
+          projects.map((project, index) => (
+            <ProjectCard key={`project-${index}`} index={index} {...project} />
+          ))
+        )}
       </div>
     </>
   );

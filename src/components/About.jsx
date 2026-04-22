@@ -7,7 +7,7 @@ import { SectionWrapper } from "../hoc";
 import { fadeIn, textVariant } from "../utils/motion";
 
 const ServiceCard = ({ index, title, icon }) => (
-  <Tilt 
+  <Tilt
     className='xs:w-[250px] w-full'
     options={{
       max: 45,
@@ -24,7 +24,7 @@ const ServiceCard = ({ index, title, icon }) => (
       >
         <img
           src={icon}
-          alt='web-development'
+          alt={`${title} icon`}
           className='w-16 h-16 object-contain'
         />
 
@@ -48,11 +48,16 @@ const About = () => {
         variants={fadeIn("", "", 0.1, 1)}
         className='mt-4 text-secondary text-[17px] max-w-3xl leading-[30px]'
       >
-        I'm a skilled software developer with experience in TypeScript and
-        JavaScript, and expertise in frameworks like React, React Native, and
-        Node.js. I'm a quick learner and collaborate closely with clients to
-        create efficient, scalable, and user-friendly solutions that solve
-        real-world problems. Let's work together to bring your ideas to life!
+        I'm a Frontend Software Engineer with <span className='text-white font-medium'>5+ years</span> of
+        production experience in <span className='text-white font-medium'>React</span> and{" "}
+        <span className='text-white font-medium'>TypeScript</span>. At{" "}
+        <span className='text-white font-medium'>IBM Data &amp; AI</span> I build interfaces used by
+        enterprise customers across the watsonx platform &mdash; shipping performant, accessible
+        components and collaborating across design, product, and backend teams.
+        <br /><br />
+        Outside of IBM, I ship real products for West Africa: fleet management, clinic operations,
+        and local-services marketplaces. I care about performance, accessibility, clean component
+        APIs, and measuring impact before optimizing.
       </motion.p>
 
       <div className='mt-20 flex flex-wrap gap-10'>

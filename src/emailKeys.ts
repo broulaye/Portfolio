@@ -1,16 +1,9 @@
+// EmailJS public credentials are safe to expose in the browser bundle —
+// they're designed for client-side use and rate-limited per key.
 const emailKeys = {
-  SERVICE_ID: process.env.REACT_APP_EMAILJS_SERVICE_ID || '',
-  TEMPLATE_ID: process.env.REACT_APP_EMAILJS_TEMPLATE_ID || '',
-  PUBLIC_KEY: process.env.REACT_APP_EMAILJS_PUBLIC_KEY || '',
-}
-
-// Log configuration status (only in development)
-// if (process.env.NODE_ENV === 'development') {
-//   console.log('EmailJS Configuration:', {
-//     hasServiceId: !!emailKeys.SERVICE_ID,
-//     hasTemplateId: !!emailKeys.TEMPLATE_ID,
-//     hasPublicKey: !!emailKeys.PUBLIC_KEY,
-//   });
-// }
+  SERVICE_ID: import.meta.env.VITE_EMAILJS_SERVICE_ID ?? '',
+  TEMPLATE_ID: import.meta.env.VITE_EMAILJS_TEMPLATE_ID ?? '',
+  PUBLIC_KEY: import.meta.env.VITE_EMAILJS_PUBLIC_KEY ?? '',
+};
 
 export default emailKeys;

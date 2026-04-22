@@ -1,0 +1,5 @@
+- Highlight IBM Data & AI work with impact metrics
+- Feature guinea-fleet-manager, Medora, HandyAfrica with live links/demos
+- Add a "Currently building" section for West Africa projects
+- Improve mobile responsiveness
+- Tighten the hero section copy for recruiter-first scanning

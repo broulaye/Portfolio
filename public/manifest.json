@@ -1,6 +1,7 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Broulaye",
+  "name": "Broulaye — Frontend Software Engineer",
+  "description": "Portfolio of Broulaye, Frontend Software Engineer with 5+ years of React and TypeScript experience.",
   "icons": [
     {
       "src": "/images/logo.ico",
@@ -18,8 +19,8 @@
       "sizes": "512x512"
     }
   ],
-  "start_url": ".",
+  "start_url": "/",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "theme_color": "#050816",
+  "background_color": "#050816"
 }
