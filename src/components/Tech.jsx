@@ -26,22 +26,29 @@ const Tech = () => {
       </motion.p>
 
       <div className='mt-12 grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-3'>
-        {technologies.map((tech, index) => (
-          <motion.div
-            key={tech.name}
-            variants={fadeIn("up", "spring", index * 0.04, 0.4)}
-            className='rounded-lg border border-white/10 bg-white/[0.02] hover:border-white/20 hover:bg-white/[0.04] transition-colors px-3 py-4 flex flex-col items-center gap-2 text-center'
-          >
-            <img
-              src={tech.icon}
-              alt={`${tech.name} logo`}
-              className='w-8 h-8 object-contain'
-              loading='lazy'
-              decoding='async'
-            />
-            <span className='font-mono text-[11px] text-secondary'>{tech.name}</span>
-          </motion.div>
-        ))}
+        {technologies.map((tech, index) => {
+          const Icon = tech.Icon;
+          return (
+            <motion.div
+              key={tech.name}
+              variants={fadeIn("up", "spring", index * 0.04, 0.4)}
+              className='rounded-lg border border-white/10 bg-white/[0.02] hover:border-white/20 hover:bg-white/[0.04] transition-colors px-3 py-4 flex flex-col items-center gap-2 text-center'
+            >
+              {Icon ? (
+                <Icon className='w-8 h-8 text-white' aria-hidden='true' />
+              ) : (
+                <img
+                  src={tech.icon}
+                  alt={`${tech.name} logo`}
+                  className='w-8 h-8 object-contain'
+                  loading='lazy'
+                  decoding='async'
+                />
+              )}
+              <span className='font-mono text-[11px] text-secondary'>{tech.name}</span>
+            </motion.div>
+          );
+        })}
       </div>
     </>
   );

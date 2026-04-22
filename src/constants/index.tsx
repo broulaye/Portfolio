@@ -1,3 +1,5 @@
+import { SiNextdotjs } from "react-icons/si";
+
 import {
   mobile,
   backend,
@@ -13,7 +15,6 @@ import {
   docker,
   figma,
   tailwind,
-  threejs,
   reactNative,
 } from "../assets";
 
@@ -93,8 +94,8 @@ const technologies = [
     icon: nodejs,
   },
   {
-    name: "Three.js",
-    icon: threejs,
+    name: "Next.js",
+    Icon: SiNextdotjs,
   },
   {
     name: "Figma",
